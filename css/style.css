@@ -3,13 +3,12 @@ body {
 	font-family: arial;
 }
 
-#bar {
+.bar, .value {
 	display: inline-block;
-	background-color: black;
 }
 
-.value {
-	display: inline-block;
+#graph {
+	height: 400px;
 }
 
 button {

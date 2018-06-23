@@ -1,9 +1,27 @@
 document.addEventListener('DOMContentLoaded', function(){
 	
+	var a = [5,8,2,1,15,2,3,5,9,11,10,4,3,14,1,7,10,3,2,13];
+
 	// Вычисляем ширину каждого столбца
 	calcWidth = function(){
 		return 100/a.length + '%';
 	}
+
+	// находим максимальное значение
+	whichMax = function(){
+		return Math.max.apply(null,a);
+	}
+	
+	// Вычисляем шаг по высоте
+	calcHeightStep = function(){
+		return (document.getElementById('graph').clientHeight / whichMax());
+	}
+
+	// Вычисляем высоту каждого столбца
+	calcHeight = function(i){
+		return (calcHeightStep()*a[i]) + 'px';
+	}
+
 
 	// при вводе строки с клавиатуры, удаляем старый график и строку переводим в массив
 	enterMassive = function(){
@@ -11,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		a = str.split(',');
 		document.getElementById('graph').innerHTML = '';
 		document.getElementById('value').innerHTML = '';
+		whichMax();
+		calcHeightStep();
 		parseMassive();
 	}
 
@@ -24,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function(){
 	// создаем график
 	createBar = function(i){
 		var bar = document.createElement('div');
-			bar.id = 'bar';
-			bar.style.height = (a[i] *10) + 'px';
+			bar.className= 'bar';
+			bar.style.height = calcHeight(i);
 			bar.style.width = calcWidth();
 			bar.style.backgroundColor = whichColor(i);
 			document.getElementById('graph').appendChild(bar);
@@ -43,21 +63,6 @@ document.addEventListener('DOMContentLoaded', function(){
 			createBar(i);
 		}
 	};
-
-	// создаем блок для вывода графика
-	createGraph = function(){
-		var graph = document.createElement('div');
-		graph.id = 'graph';
-		document.body.insertBefore(graph, document.body.children[1]);
-
-		var value = document.createElement('div');
-		value.id = 'value';
-		document.body.insertBefore(value, document.body.children[2]);
-	}
-
-	createGraph();
-
-	var a = [5,8,2,1,15,2,3,5,9,11,10,4,3,14,1,7,10,3,2,13];
 
 	parseMassive();
 });
